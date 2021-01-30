@@ -6,12 +6,10 @@ function setEmissionDataInStorage(emissionsData = {}) {
   // console.log('all deleted');
   // return;
 
+  if (emissionsData.error) return;
+  console.log({ emissionsData });
   // set new data
   chrome.storage.local.set({ [emissionsData.id]: emissionsData });
-  // get all storage data
-  chrome.storage.local.get(null, function (items) {
-    console.log({ items });
-  });
 }
 
 export function getWebsiteCarbonData(url = window.location.hostname) {
@@ -24,7 +22,6 @@ export function getWebsiteCarbonData(url = window.location.hostname) {
   axios
     .get(endpoint, {})
     .then((response) => {
-      console.log({ response: response.data });
       setEmissionDataInStorage(response.data);
       return response.data;
     })
